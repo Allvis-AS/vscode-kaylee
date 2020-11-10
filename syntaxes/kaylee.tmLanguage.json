@@ -1,0 +1,171 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Kaylee",
+	"patterns": [
+		{
+			"include": "#schemas"
+		}
+	],
+	"repository": {
+		"schemas": {
+			"begin": "\\b(schema)\\s+([a-zA-Z]+)[\\s\\n]*\\{",
+			"end": "\\}",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other"
+				},
+				"2": {
+					"name": "entity.name.namespace"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#entities"
+				}
+			]
+		},
+		"entities": {
+			"begin": "\\b(entity)\\s+([a-zA-Z]+)[\\s\\n]*\\{",
+			"end": "\\}",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other"
+				},
+				"2": {
+					"name": "entity.name.class"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#entities"
+				},
+				{
+					"include": "#fields"
+				},
+				{
+					"include": "#keys"
+				}
+			]
+		},
+		"fields": {
+			"begin": "\\b(fields)\\s*\\{",
+			"end": "\\}",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#fieldsBody"
+				}
+			]
+		},
+		"fieldsBody": {
+			"match": "\\b([a-zA-Z]+)(\\?)?\\s+(INT(\\s+AUTO\\s+INCREMENT)?|TEXT(\\((?:([1-9]\\d*|0+\\d+)|(MAX))\\))?|GUID|DATE|ROWVERSION)(?:\\s+(DEFAULT)\\s+(?:([1-9]\\d*|0+\\d+)|([a-zA-Z]+\\(\\))))?\\s*(;)",
+			"captures": {
+				"1": {
+					"name": "variable.other.member"
+				},
+				"2": {
+					"name": "storage.modifier"
+				},
+				"3": {
+					"name": "storage.type"
+				},
+				"4": {
+					"name": "storage.modifier"
+				},
+				"5": {
+					"name": "storage.modifier"
+				},
+				"6": {
+					"name": "constant.numeric.integer"
+				},
+				"7": {
+					"name": "constant.language"
+				},
+				"8": {
+					"name": "storage.modifier"
+				},
+				"9": {
+					"name": "constant.numeric.integer"
+				},
+				"10": {
+					"name": "support.function"
+				},
+				"11": {
+					"name": "punctuation.terminator"
+				}
+			}
+		},
+		"keys": {
+			"begin": "\\b(keys)\\s*\\{",
+			"end": "\\}",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#keysBody"
+				}
+			]
+		},
+		"keysBody": {
+			"patterns": [
+				{
+					"begin": "\\b(primary)\\s*(=)",
+					"end": ";",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.other"
+						},
+						"2": {
+							"name": "keyword.operator.assignment"
+						}
+					},
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.terminator"
+						}
+					},
+					"patterns": [
+						{
+							"name": "variable.other.member",
+							"match": "[a-zA-Z]+"
+						},
+						{
+							"name": "punctuation.separator",
+							"match": ","
+						},
+						{
+							"include": "keysForeign"
+						}
+					]
+				}
+			]
+		},
+		"keysForeign": {
+			"begin": "\\b(foreign)\\s*\\{",
+			"end": "\\}",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#keysForeignBody"
+				}
+			]
+		},
+		"keysForeignBody": {
+			"patterns": [
+				// TODO: Implement the foreign key constraint patterns
+			]
+		}
+	},
+	"scopeName": "source.kaylee"
+}

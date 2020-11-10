@@ -1,0 +1,25 @@
+{
+    "name": "kaylee",
+    "displayName": "Kaylee",
+    "description": "Language support for the kaylee modeling language.",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.51.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "kaylee",
+            "aliases": ["Kaylee", "kaylee"],
+            "extensions": [".kay"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "kaylee",
+            "scopeName": "source.kaylee",
+            "path": "./syntaxes/kaylee.tmLanguage.json"
+        }]
+    }
+}
