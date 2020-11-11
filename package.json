@@ -1,8 +1,14 @@
 {
     "name": "kaylee",
     "displayName": "Kaylee",
-    "description": "Language support for the kaylee modeling language.",
+    "description": "Language support for the Kaylee modeling language.",
     "version": "0.0.1",
+    "publisher": "sindrevanderlinden",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/graknol/vscode-kaylee"
+    },
+    "license": "MIT",
     "engines": {
         "vscode": "^1.51.0"
     },
@@ -10,16 +16,25 @@
         "Programming Languages"
     ],
     "contributes": {
-        "languages": [{
-            "id": "kaylee",
-            "aliases": ["Kaylee", "kaylee"],
-            "extensions": [".kay"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "kaylee",
-            "scopeName": "source.kaylee",
-            "path": "./syntaxes/kaylee.tmLanguage.json"
-        }]
+        "languages": [
+            {
+                "id": "kaylee",
+                "aliases": [
+                    "Kaylee",
+                    "kaylee"
+                ],
+                "extensions": [
+                    ".kay"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "kaylee",
+                "scopeName": "source.kaylee",
+                "path": "./syntaxes/kaylee.tmLanguage.json"
+            }
+        ]
     }
 }
