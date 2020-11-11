@@ -15,6 +15,33 @@ representations in your language of choice.
 
 ## Release Notes
 
+### 0.0.2
+
+Added support for `mutations`, i.e.:
+
+```kaylee
+entity User {
+  fields {
+    UserId GUID {
+      default = NEWID();
+    }
+    FirstName? TEXT(100);
+    LastName? TEXT(100);
+    ContactEmail? TEXT(254);
+    ContactPhone? TEXT(50);
+    Verified BIT {
+      default = 0;
+    }
+  }
+
+  mutations {
+      Name(FirstName, LastName);
+      ContactInformation(ContactEmail, ContactPhone);
+      Verified(Verified);
+  }
+}
+```
+
 ### 0.0.1
 
 Initial release, with support for the most basic constructs like:
