@@ -3,7 +3,7 @@
     "displayName": "Kaylee",
     "description": "Language support for the Kaylee modeling language.",
     "version": "0.0.1",
-    "publisher": "sindrevanderlinden",
+    "publisher": "allvis-sindre",
     "repository": {
       "type": "git",
       "url": "https://github.com/graknol/vscode-kaylee"
