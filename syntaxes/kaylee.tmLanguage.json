@@ -4,6 +4,9 @@
 	"patterns": [
 		{
 			"include": "#schemas"
+		},
+		{
+			"include": "#comments"
 		}
 	],
 	"repository": {
@@ -21,6 +24,9 @@
 			"patterns": [
 				{
 					"include": "#entities"
+				},
+				{
+					"include": "#comments"
 				}
 			]
 		},
@@ -44,6 +50,9 @@
 				},
 				{
 					"include": "#keys"
+				},
+				{
+					"include": "#comments"
 				}
 			]
 		},
@@ -57,12 +66,18 @@
 			},
 			"patterns": [
 				{
-					"include": "#fieldsBody"
+					"include": "#fieldDefinitionWithoutProperties"
+				},
+				{
+					"include": "#fieldDefinitionWithProperties"
+				},
+				{
+					"include": "#comments"
 				}
 			]
 		},
-		"fieldsBody": {
-			"match": "\\b([a-zA-Z]+)(\\?)?\\s+(INT(\\s+AUTO\\s+INCREMENT)?|TEXT(\\((?:([1-9]\\d*|0+\\d+)|(MAX))\\))?|GUID|DATE|ROWVERSION)(?:\\s+(DEFAULT)\\s+(?:([1-9]\\d*|0+\\d+)|([a-zA-Z]+\\(\\))))?\\s*(;)",
+		"fieldDefinitionWithoutProperties": {
+			"match": "\\b([a-zA-Z]+)(\\?)?\\s+(INT(\\s+AUTO\\s+INCREMENT)?|CHAR|TEXT(\\((?:([1-9]\\d*|0+\\d+)|(MAX))\\))?|GUID|DATE|ROWVERSION)\\s*(;)",
 			"captures": {
 				"1": {
 					"name": "variable.other.member"
@@ -86,18 +101,76 @@
 					"name": "constant.language"
 				},
 				"8": {
-					"name": "storage.modifier"
-				},
-				"9": {
-					"name": "constant.numeric.integer"
-				},
-				"10": {
-					"name": "support.function"
-				},
-				"11": {
 					"name": "punctuation.terminator"
 				}
 			}
+		},
+		"fieldDefinitionWithProperties": {
+			"begin": "\\b([a-zA-Z]+)(\\?)?\\s+(INT(\\s+AUTO\\s+INCREMENT)?|CHAR|TEXT(\\((?:([1-9]\\d*|0+\\d+)|(MAX))\\))?|GUID|DATE|ROWVERSION)\\s*\\{",
+			"end": "\\}",
+			"beginCaptures": {
+				"1": {
+					"name": "variable.other.member"
+				},
+				"2": {
+					"name": "storage.modifier"
+				},
+				"3": {
+					"name": "storage.type"
+				},
+				"4": {
+					"name": "storage.modifier"
+				},
+				"5": {
+					"name": "storage.modifier"
+				},
+				"6": {
+					"name": "constant.numeric.integer"
+				},
+				"7": {
+					"name": "constant.language"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#fieldProperties"
+				}
+			]
+		},
+		"fieldProperties": {
+			"patterns": [
+				{
+					"begin": "\\b(default)\\s*(=)",
+					"end": ";",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.other"
+						},
+						"2": {
+							"name": "keyword.operator.assignment"
+						}
+					},
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.terminator"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#numericConstant"
+						},
+						{
+							"include": "#literal"
+						},
+						{
+							"include": "#supportFunction"
+						},
+						{
+							"include": "#comments"
+						}
+					]
+				}
+			]
 		},
 		"keys": {
 			"begin": "\\b(keys)\\s*\\{",
@@ -110,10 +183,23 @@
 			"patterns": [
 				{
 					"include": "#keysBody"
+				},
+				{
+					"include": "#comments"
 				}
 			]
 		},
 		"keysBody": {
+			"patterns": [
+				{
+					"include": "#primaryKey"
+				},
+				{
+					"include": "#referenceKey"
+				}
+			]
+		},
+		"primaryKey": {
 			"patterns": [
 				{
 					"begin": "\\b(primary)\\s*(=)",
@@ -133,37 +219,101 @@
 					},
 					"patterns": [
 						{
-							"name": "variable.other.member",
-							"match": "[a-zA-Z]+"
-						},
-						{
-							"name": "punctuation.separator",
-							"match": ","
-						},
-						{
-							"include": "keysForeign"
+							"include": "#commaSeparatedFields"
 						}
 					]
 				}
 			]
 		},
-		"keysForeign": {
-			"begin": "\\b(foreign)\\s*\\{",
-			"end": "\\}",
+		"referenceKey": {
+			"begin": "\\b(reference)\\b",
+			"end": ";",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.other"
 				}
 			},
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.terminator"
+				}
+			},
 			"patterns": [
 				{
-					"include": "#keysForeignBody"
+					"name": "punctuation.accessor",
+					"match": "(=>)\\s*([a-zA-Z]+)(::)([a-zA-Z]+(?:\\.[a-zA-Z]+)*)",
+					"captures": {
+						"1": {
+							"name": "punctuation.accessor"
+						},
+						"2": {
+							"name": "entity.name.namespace"
+						},
+						"3": {
+							"name": "punctuation.accessor"
+						},
+						"4": {
+							"patterns": [
+								{
+									"name": "punctuation.accessor",
+									"match": "\\."
+								},
+								{
+									"name": "entity.name.class",
+									"match": "[a-zA-Z]+"
+								}
+							]
+						}
+					}
+				},
+				{
+					"include": "#commaSeparatedFields"
 				}
 			]
 		},
-		"keysForeignBody": {
+		"commaSeparatedFields": {
 			"patterns": [
-				// TODO: Implement the foreign key constraint patterns
+				{
+					"name": "variable.other.member",
+					"match": "[a-zA-Z]+"
+				},
+				{
+					"name": "punctuation.separator",
+					"match": ","
+				}
+			]
+		},
+		"numericConstant": {
+			"name": "constant.numeric",
+			"match": "-?\\d+(?:\\.\\d+)?"
+		},
+		"literal": {
+			"name": "string.quoted.single",
+			"begin": "'",
+			"end": "'",
+			"applyEndPatternLast": 1,
+			"patterns": [
+				{
+					"name": "constant.character.escape",
+					"match": "''"
+				}
+			]
+		},
+		"supportFunction": {
+			"name": "support.function",
+			"match": "(?:NEWID|SYSDATETIMEOFFSET)\\(\\)"
+		},
+		"comments": {
+			"patterns": [
+				{
+					"name": "comment.line",
+					"match": "//.*"
+				},
+				{
+					"name": "comment.block",
+					"begin": "/\\*",
+					"end": "\\*/"
+				}
 			]
 		}
 	},
