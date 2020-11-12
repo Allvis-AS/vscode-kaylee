@@ -80,7 +80,7 @@
 			]
 		},
 		"fieldDefinitionWithoutProperties": {
-			"match": "\\b([a-zA-Z]+)(\\?)?\\s+(BIT|INT(\\s+AUTO\\s+INCREMENT)?|CHAR|TEXT(\\((?:([1-9]\\d*|0+\\d+)|(MAX))\\))?|GUID|DATE|ROWVERSION)\\s*(;)",
+			"match": "\\b([a-zA-Z]+)(\\?)?\\s+(BIT|TINYINT|INT(\\s+AUTO\\s+INCREMENT)?|CHAR|TEXT(\\((?:([1-9]\\d*|0+\\d+)|(MAX))\\))?|GUID|DATE|ROWVERSION)\\s*(;)",
 			"captures": {
 				"1": {
 					"name": "variable.other.member"
@@ -109,7 +109,7 @@
 			}
 		},
 		"fieldDefinitionWithProperties": {
-			"begin": "\\b([a-zA-Z]+)(\\?)?\\s+(BIT|INT(\\s+AUTO\\s+INCREMENT)?|CHAR|TEXT(\\((?:([1-9]\\d*|0+\\d+)|(MAX))\\))?|GUID|DATE|ROWVERSION)\\s*\\{",
+			"begin": "\\b([a-zA-Z]+)(\\?)?\\s+(BIT|TINYINT|INT(\\s+AUTO\\s+INCREMENT)?|CHAR|TEXT(\\((?:([1-9]\\d*|0+\\d+)|(MAX))\\))?|GUID|DATE|ROWVERSION)\\s*\\{",
 			"end": "\\}",
 			"beginCaptures": {
 				"1": {
@@ -327,8 +327,16 @@
 			]
 		},
 		"numericConstant": {
-			"name": "constant.numeric",
-			"match": "-?\\d+(?:\\.\\d+)?"
+			"patterns": [
+				{
+					"name": "constant.numeric.hexadecimal",
+					"match": "0[xX][0-9a-fA-F]+"
+				},
+				{
+					"name": "constant.numeric",
+					"match": "-?\\d+(?:\\.\\d+)?"
+				}
+			]
 		},
 		"literal": {
 			"name": "string.quoted.single",

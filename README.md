@@ -15,6 +15,11 @@ representations in your language of choice.
 
 ## Release Notes
 
+### 0.0.3
+
+- Added support for the `TINYINT` data type.
+- Added support for hexadecimal numeric literals, i.e. `0x1F`.
+
 ### 0.0.2
 
 Added support for `mutations`, i.e.:
