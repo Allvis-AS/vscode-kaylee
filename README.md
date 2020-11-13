@@ -15,6 +15,11 @@ representations in your language of choice.
 
 ## Release Notes
 
+### 0.0.4
+
+- Migrated to new branch name `main`.
+- Corrected repository URL.
+
 ### 0.0.3
 
 - Added support for the `TINYINT` data type.

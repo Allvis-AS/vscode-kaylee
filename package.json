@@ -2,11 +2,11 @@
     "name": "kaylee",
     "displayName": "Kaylee",
     "description": "Language support for the Kaylee modeling language.",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "publisher": "allvis-sindre",
     "repository": {
       "type": "git",
-      "url": "https://github.com/graknol/vscode-kaylee"
+      "url": "https://github.com/Allvis-AS/vscode-kaylee.git"
     },
     "license": "MIT",
     "engines": {
