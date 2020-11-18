@@ -201,6 +201,9 @@
 					"include": "#primaryKey"
 				},
 				{
+					"include": "#uniqueKey"
+				},
+				{
 					"include": "#referenceKey"
 				}
 			]
@@ -228,6 +231,25 @@
 							"include": "#commaSeparatedFields"
 						}
 					]
+				}
+			]
+		},
+		"uniqueKey": {
+			"begin": "\\b(unique)\\b",
+			"end": ";",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other"
+				}
+			},
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.terminator"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#commaSeparatedFields"
 				}
 			]
 		},
