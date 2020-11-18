@@ -175,6 +175,28 @@
 							"include": "#comments"
 						}
 					]
+				},
+				{
+					"begin": "\\b(computed)\\s*(=)",
+					"end": ";",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.other"
+						},
+						"2": {
+							"name": "keyword.operator.assignment"
+						}
+					},
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.terminator"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#boolean"
+						}
+					]
 				}
 			]
 		},
@@ -350,6 +372,10 @@
 					"match": ","
 				}
 			]
+		},
+		"boolean": {
+			"name": "constant.language",
+			"match": "\\b(?:true|false)\\b"
 		},
 		"numericConstant": {
 			"patterns": [
