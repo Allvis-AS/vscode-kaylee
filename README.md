@@ -15,6 +15,10 @@ representations in your language of choice.
 
 ## Release Notes
 
+### 0.0.6
+
+- Added support for `BINARY(<size>)` and `VARBINARY(<size|MAX>)` fields.
+
 ### 0.0.5
 
 - Added support for the `computed = <true|false>` property on fields.

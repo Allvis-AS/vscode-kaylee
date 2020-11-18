@@ -80,7 +80,7 @@
 			]
 		},
 		"fieldDefinitionWithoutProperties": {
-			"match": "\\b([a-zA-Z]+)(\\?)?\\s+(BIT|TINYINT|INT(\\s+AUTO\\s+INCREMENT)?|CHAR|TEXT(\\((?:([1-9]\\d*|0+\\d+)|(MAX))\\))?|GUID|DATE|ROWVERSION)\\s*(;)",
+			"match": "\\b([a-zA-Z]+)(\\?)?\\s+(BIT|CHAR|GUID|DATE|ROWVERSION|TINYINT|INT(\\s+AUTO\\s+INCREMENT)?|BINARY\\((\\d+)\\)|(?:VARBINARY|TEXT)\\((?:(\\d+)|(MAX))\\))\\s*(;)",
 			"captures": {
 				"1": {
 					"name": "variable.other.member"
@@ -95,7 +95,7 @@
 					"name": "storage.modifier"
 				},
 				"5": {
-					"name": "storage.modifier"
+					"name": "constant.numeric.integer"
 				},
 				"6": {
 					"name": "constant.numeric.integer"
@@ -109,7 +109,7 @@
 			}
 		},
 		"fieldDefinitionWithProperties": {
-			"begin": "\\b([a-zA-Z]+)(\\?)?\\s+(BIT|TINYINT|INT(\\s+AUTO\\s+INCREMENT)?|CHAR|TEXT(\\((?:([1-9]\\d*|0+\\d+)|(MAX))\\))?|GUID|DATE|ROWVERSION)\\s*\\{",
+			"begin": "\\b([a-zA-Z]+)(\\?)?\\s+(BIT|CHAR|GUID|DATE|ROWVERSION|TINYINT|INT(\\s+AUTO\\s+INCREMENT)?|BINARY\\((\\d+)\\)|(?:VARBINARY|TEXT)\\((?:(\\d+)|(MAX))\\))\\s*\\{",
 			"end": "\\}",
 			"beginCaptures": {
 				"1": {
@@ -125,7 +125,7 @@
 					"name": "storage.modifier"
 				},
 				"5": {
-					"name": "storage.modifier"
+					"name": "constant.numeric.integer"
 				},
 				"6": {
 					"name": "constant.numeric.integer"
