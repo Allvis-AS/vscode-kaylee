@@ -35,6 +35,12 @@
                 "scopeName": "source.kaylee",
                 "path": "./syntaxes/kaylee.tmLanguage.json"
             }
+        ],
+        "snippets": [
+            {
+                "language": "kaylee",
+                "path": "./snippets.json"
+            }
         ]
     }
 }

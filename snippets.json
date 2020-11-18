@@ -1,0 +1,51 @@
+{
+	"Schema": {
+		"prefix": "schema",
+		"body": [
+			"schema $1 {",
+			"\t$0",
+			"}"
+		],
+		"description": "The root of all entities."
+	},
+	"Entity": {
+		"prefix": "entity",
+		"body": [
+			"entity $1 {",
+			"\tfields {",
+			"\t\t$2",
+			"\t}",
+			"\t",
+			"\tkeys {",
+			"\t\tprimary = ${3:FieldList};",
+			"\t}",
+			"\t",
+			"\tmutations {",
+			"\t\t$4",
+			"\t}",
+			"}"
+		],
+		"description": "The main building block; these are the records in your solution."
+	},
+	"Unique Key": {
+		"prefix": "unique",
+		"body": [
+			"unique(${1:FieldList});"
+		],
+		"description": "The field specification for a unique key."
+	},
+	"Reference Key": {
+		"prefix": "reference",
+		"body": [
+			"reference(${1:SourceFieldList}) => ${2:TargetEntity}(${3:TargetFieldList});"
+		],
+		"description": "The field specification for an entity reference."
+	},
+	"Mutation": {
+		"prefix": "mutation",
+		"body": [
+			"${1:Name}(${2:FieldList});"
+		],
+		"description": "The field specification for mutating the records."
+	}
+}
