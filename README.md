@@ -15,6 +15,13 @@ representations in your language of choice.
 
 ## Release Notes
 
+### 0.0.5
+
+- Added support for the `computed = <true|false>` property on fields.
+- Added support for `unique(FieldA, FieldB, ...)` keys.
+- Added snippets to make it easier to scaffold `schema`, `entity`, `unique`, `reference` and `mutation`.
+- Enabled comments to be used in the field property block.
+
 ### 0.0.4
 
 - Migrated to new branch name `main`.
