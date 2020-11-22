@@ -11,14 +11,22 @@
 	],
 	"repository": {
 		"schemas": {
-			"begin": "\\b(schema)\\s+([a-zA-Z]+)[\\s\\n]*\\{",
-			"end": "\\}",
+			"begin": "\\b(schema)\\s+([a-zA-Z][a-zA-Z0-9]*)[\\s\\n]*(\\{)",
+			"end": "(\\})",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.other"
 				},
 				"2": {
 					"name": "entity.name.namespace"
+				},
+				"3": {
+					"name": "meta.block"
+				}
+			},
+			"endCaptures": {
+				"1": {
+					"name": "meta.block"
 				}
 			},
 			"patterns": [
@@ -31,14 +39,22 @@
 			]
 		},
 		"entities": {
-			"begin": "\\b(entity)\\s+([a-zA-Z]+)[\\s\\n]*\\{",
-			"end": "\\}",
+			"begin": "\\b(entity)\\s+([a-zA-Z][a-zA-Z0-9]*)[\\s\\n]*(\\{)",
+			"end": "(\\})",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.other"
 				},
 				"2": {
 					"name": "entity.name.class"
+				},
+				"3": {
+					"name": "meta.block"
+				}
+			},
+			"endCaptures": {
+				"1": {
+					"name": "meta.block"
 				}
 			},
 			"patterns": [
@@ -60,11 +76,19 @@
 			]
 		},
 		"fields": {
-			"begin": "\\b(fields)\\s*\\{",
-			"end": "\\}",
+			"begin": "\\b(fields)\\s*(\\{)",
+			"end": "(\\})",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.other"
+				},
+				"2": {
+					"name": "meta.block"
+				}
+			},
+			"endCaptures": {
+				"1": {
+					"name": "meta.block"
 				}
 			},
 			"patterns": [
@@ -80,7 +104,7 @@
 			]
 		},
 		"fieldDefinitionWithoutProperties": {
-			"match": "\\b([a-zA-Z]+)(\\?)?\\s+(BIT|CHAR|GUID|DATE|ROWVERSION|TINYINT|INT(\\s+AUTO\\s+INCREMENT)?|BINARY\\((\\d+)\\)|(?:VARBINARY|TEXT)\\((?:(\\d+)|(MAX))\\))\\s*(;)",
+			"match": "\\b([a-zA-Z][a-zA-Z0-9]*)(\\?)?\\s+(.+)\\s*(;)",
 			"captures": {
 				"1": {
 					"name": "variable.other.member"
@@ -89,28 +113,20 @@
 					"name": "storage.modifier"
 				},
 				"3": {
-					"name": "storage.type"
+					"patterns": [
+						{
+							"include": "#fieldType"
+						}
+					]
 				},
 				"4": {
-					"name": "storage.modifier"
-				},
-				"5": {
-					"name": "constant.numeric.integer"
-				},
-				"6": {
-					"name": "constant.numeric.integer"
-				},
-				"7": {
-					"name": "constant.language"
-				},
-				"8": {
 					"name": "punctuation.terminator"
 				}
 			}
 		},
 		"fieldDefinitionWithProperties": {
-			"begin": "\\b([a-zA-Z]+)(\\?)?\\s+(BIT|CHAR|GUID|DATE|ROWVERSION|TINYINT|INT(\\s+AUTO\\s+INCREMENT)?|BINARY\\((\\d+)\\)|(?:VARBINARY|TEXT)\\((?:(\\d+)|(MAX))\\))\\s*\\{",
-			"end": "\\}",
+			"begin": "\\b([a-zA-Z][a-zA-Z0-9]*)(\\?)?\\s+(.+)\\s*(\\{)",
+			"end": "(\\})",
 			"beginCaptures": {
 				"1": {
 					"name": "variable.other.member"
@@ -119,19 +135,19 @@
 					"name": "storage.modifier"
 				},
 				"3": {
-					"name": "storage.type"
+					"patterns": [
+						{
+							"include": "#fieldType"
+						}
+					]
 				},
 				"4": {
-					"name": "storage.modifier"
-				},
-				"5": {
-					"name": "constant.numeric.integer"
-				},
-				"6": {
-					"name": "constant.numeric.integer"
-				},
-				"7": {
-					"name": "constant.language"
+					"name": "meta.block"
+				}
+			},
+			"endCaptures": {
+				"1": {
+					"name": "meta.block"
 				}
 			},
 			"patterns": [
@@ -143,11 +159,141 @@
 				}
 			]
 		},
+		"fieldType": {
+			"patterns": [
+				{
+					"name": "storage.type",
+					"match": "BIT"
+				},
+				{
+					"name": "storage.type",
+					"match": "CHAR"
+				},
+				{
+					"name": "storage.type",
+					"match": "GUID"
+				},
+				{
+					"name": "storage.type",
+					"match": "DATE"
+				},
+				{
+					"name": "storage.type",
+					"match": "ROWVERSION"
+				},
+				{
+					"name": "storage.type",
+					"match": "TINYINT"
+				},
+				{
+					"match": "(INT)(\\s+AUTO\\s+INCREMENT)?",
+					"captures": {
+						"1": {
+							"name": "storage.type"
+						},
+						"2": {
+							"name": "storage.modifier"
+						}
+					}
+				},
+				{
+					"match": "(BIGINT)(\\s+AUTO\\s+INCREMENT)?",
+					"captures": {
+						"1": {
+							"name": "storage.type"
+						},
+						"2": {
+							"name": "storage.modifier"
+						}
+					}
+				},
+				{
+					"match": "(DECIMAL)\\s*(\\()\\s*(\\d+)\\s*(,)\\s*(\\d+)\\s*(\\))",
+					"captures": {
+						"1": {
+							"name": "storage.type"
+						},
+						"2": {
+							"name": "meta.group"
+						},
+						"3": {
+							"name": "constant.numeric.integer"
+						},
+						"4": {
+							"name": "punctuation.separator"
+						},
+						"5": {
+							"name": "constant.numeric.integer"
+						},
+						"6": {
+							"name": "meta.group"
+						}
+					}
+				},
+				{
+					"match": "(BINARY)\\s*(\\()\\s*(\\d+)\\s*(\\))",
+					"captures": {
+						"1": {
+							"name": "storage.type"
+						},
+						"2": {
+							"name": "meta.group"
+						},
+						"3": {
+							"name": "constant.numeric.integer"
+						},
+						"4": {
+							"name": "meta.group"
+						}
+					}
+				},
+				{
+					"match": "(VARBINARY)\\s*(\\()\\s*(?:(\\d+)|(MAX))\\s*(\\))",
+					"captures": {
+						"1": {
+							"name": "storage.type"
+						},
+						"2": {
+							"name": "meta.group"
+						},
+						"3": {
+							"name": "constant.numeric.integer"
+						},
+						"4": {
+							"name": "constant.language"
+						},
+						"5": {
+							"name": "meta.group"
+						}
+					}
+				},
+				{
+					"match": "(TEXT)\\s*(\\()\\s*(?:(\\d+)|(MAX))\\s*(\\))",
+					"captures": {
+						"1": {
+							"name": "storage.type"
+						},
+						"2": {
+							"name": "meta.group"
+						},
+						"3": {
+							"name": "constant.numeric.integer"
+						},
+						"4": {
+							"name": "constant.language"
+						},
+						"5": {
+							"name": "meta.group"
+						}
+					}
+				}
+			]
+		},
 		"fieldProperties": {
 			"patterns": [
 				{
 					"begin": "\\b(default)\\s*(=)",
-					"end": ";",
+					"end": "(;)",
 					"beginCaptures": {
 						"1": {
 							"name": "keyword.other"
@@ -157,7 +303,7 @@
 						}
 					},
 					"endCaptures": {
-						"0": {
+						"1": {
 							"name": "punctuation.terminator"
 						}
 					},
@@ -178,7 +324,7 @@
 				},
 				{
 					"begin": "\\b(computed)\\s*(=)",
-					"end": ";",
+					"end": "(;)",
 					"beginCaptures": {
 						"1": {
 							"name": "keyword.other"
@@ -188,7 +334,7 @@
 						}
 					},
 					"endCaptures": {
-						"0": {
+						"1": {
 							"name": "punctuation.terminator"
 						}
 					},
@@ -201,11 +347,19 @@
 			]
 		},
 		"keys": {
-			"begin": "\\b(keys)\\s*\\{",
-			"end": "\\}",
+			"begin": "\\b(keys)\\s*(\\{)",
+			"end": "(\\})",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.other"
+				},
+				"2": {
+					"name": "meta.block"
+				}
+			},
+			"endCaptures": {
+				"1": {
+					"name": "meta.block"
 				}
 			},
 			"patterns": [
@@ -234,7 +388,7 @@
 			"patterns": [
 				{
 					"begin": "\\b(primary)\\s*(=)",
-					"end": ";",
+					"end": "(;)",
 					"beginCaptures": {
 						"1": {
 							"name": "keyword.other"
@@ -244,7 +398,7 @@
 						}
 					},
 					"endCaptures": {
-						"0": {
+						"1": {
 							"name": "punctuation.terminator"
 						}
 					},
@@ -258,14 +412,14 @@
 		},
 		"uniqueKey": {
 			"begin": "\\b(unique)\\b",
-			"end": ";",
+			"end": "(;)",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.other"
 				}
 			},
 			"endCaptures": {
-				"0": {
+				"1": {
 					"name": "punctuation.terminator"
 				}
 			},
@@ -277,21 +431,21 @@
 		},
 		"referenceKey": {
 			"begin": "\\b(reference)\\b",
-			"end": ";",
+			"end": "(;)",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.other"
 				}
 			},
 			"endCaptures": {
-				"0": {
+				"1": {
 					"name": "punctuation.terminator"
 				}
 			},
 			"patterns": [
 				{
 					"name": "punctuation.accessor",
-					"match": "(=>)\\s*([a-zA-Z]+)(::)([a-zA-Z]+(?:\\.[a-zA-Z]+)*)",
+					"match": "(=>)\\s*([a-zA-Z][a-zA-Z0-9]*)(::)([a-zA-Z][a-zA-Z0-9]*(?:\\.[a-zA-Z][a-zA-Z0-9]*)*)",
 					"captures": {
 						"1": {
 							"name": "punctuation.accessor"
@@ -310,7 +464,7 @@
 								},
 								{
 									"name": "entity.name.class",
-									"match": "[a-zA-Z]+"
+									"match": "[a-zA-Z][a-zA-Z0-9]*"
 								}
 							]
 						}
@@ -322,11 +476,19 @@
 			]
 		},
 		"mutations": {
-			"begin": "\\b(mutations)\\s*\\{",
-			"end": "\\}",
+			"begin": "\\b(mutations)\\s*(\\{)",
+			"end": "(\\})",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.other"
+				},
+				"2": {
+					"name": "meta.block"
+				}
+			},
+			"endCaptures": {
+				"1": {
+					"name": "meta.block"
 				}
 			},
 			"patterns": [
@@ -341,15 +503,21 @@
 		"mutationsBody": {
 			"patterns": [
 				{
-					"begin": "\\b([a-zA-Z]+)\\s*\\(",
-					"end": "\\)\\s*(;)",
+					"begin": "\\b([a-zA-Z][a-zA-Z0-9]*)\\s*(\\()",
+					"end": "(\\))\\s*(;)",
 					"beginCaptures": {
 						"1": {
 							"name": "entity.name.function"
+						},
+						"2": {
+							"name": "meta.group"
 						}
 					},
 					"endCaptures": {
 						"1": {
+							"name": "meta.group"
+						},
+						"2": {
 							"name": "punctuation.terminator"
 						}
 					},
@@ -365,7 +533,7 @@
 			"patterns": [
 				{
 					"name": "variable.other.member",
-					"match": "[a-zA-Z]+"
+					"match": "[a-zA-Z][a-zA-Z0-9]*"
 				},
 				{
 					"name": "punctuation.separator",
