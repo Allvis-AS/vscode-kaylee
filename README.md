@@ -15,6 +15,11 @@ representations in your language of choice.
 
 ## Release Notes
 
+### 0.0.7
+
+- Added support for `BIGINT [AUTO INCREMENT]` and `DECIMAL(<size>, <precision>)` fields.
+- Refactored the field type matcher out into its own rule, so that it's easier to add new types and increase code reuse.
+
 ### 0.0.6
 
 - Added support for `BINARY(<size>)` and `VARBINARY(<size|MAX>)` fields.
