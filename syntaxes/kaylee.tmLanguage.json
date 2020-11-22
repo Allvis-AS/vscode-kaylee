@@ -34,6 +34,9 @@
 					"include": "#entities"
 				},
 				{
+					"include": "#queries"
+				},
+				{
 					"include": "#comments"
 				}
 			]
@@ -62,6 +65,9 @@
 					"include": "#entities"
 				},
 				{
+					"include": "#queries"
+				},
+				{
 					"include": "#fields"
 				},
 				{
@@ -69,6 +75,40 @@
 				},
 				{
 					"include": "#mutations"
+				},
+				{
+					"include": "#comments"
+				}
+			]
+		},
+		"queries": {
+			"begin": "\\b(query)\\s+([a-zA-Z][a-zA-Z0-9]*)[\\s\\n]*(\\{)",
+			"end": "(\\})",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other"
+				},
+				"2": {
+					"name": "entity.name.class"
+				},
+				"3": {
+					"name": "meta.block"
+				}
+			},
+			"endCaptures": {
+				"1": {
+					"name": "meta.block"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#queries"
+				},
+				{
+					"include": "#fields"
+				},
+				{
+					"include": "#keys"
 				},
 				{
 					"include": "#comments"
