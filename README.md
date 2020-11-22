@@ -15,6 +15,37 @@ representations in your language of choice.
 
 ## Release Notes
 
+### 0.0.8
+
+- Added support for `queries`, i.e.:
+
+```kaylee
+entity User {
+  fields {
+    UserId GUID;
+    ...
+  }
+
+  keys {
+    primary = UserId;
+  }
+
+  query Task {
+    fields {
+      TaskId INT;
+      Todo TEXT(100);
+      ...
+    }
+
+    keys {
+      primary = TaskId;
+    }
+  }
+}
+```
+
+- Added snippet to make it easier to scaffold `query`.
+
 ### 0.0.7
 
 - Added support for `BIGINT [AUTO INCREMENT]` and `DECIMAL(<size>, <precision>)` fields.
