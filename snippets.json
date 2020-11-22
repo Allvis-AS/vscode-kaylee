@@ -27,6 +27,21 @@
 		],
 		"description": "The main building block; these are the records in your solution."
 	},
+	"Query": {
+		"prefix": "query",
+		"body": [
+			"query $1 {",
+			"\tfields {",
+			"\t\t$2",
+			"\t}",
+			"\t",
+			"\tkeys {",
+			"\t\tprimary = ${3:FieldList};",
+			"\t}",
+			"}"
+		],
+		"description": "A read-only version of entity; these are especially useful for encapsulating views."
+	},
 	"Unique Key": {
 		"prefix": "unique",
 		"body": [
